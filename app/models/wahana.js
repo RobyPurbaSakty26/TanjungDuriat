@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     nama_wahana: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'wahana',
+    modelName: 'Wahana',
   });
   return wahana;
 };

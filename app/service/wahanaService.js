@@ -17,5 +17,13 @@ module.exports={
 
     create(body){
         return wahanaRepository.create(body)
+    },
+
+    update(id, body){
+        return wahanaRepository.update(id, body)
+    },
+
+    findByPk(id){
+        return wahanaRepository.findByPk(id)
     }
 }

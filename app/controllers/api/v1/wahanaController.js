@@ -33,5 +33,31 @@ module.exports ={
          })
          
      }
-    }
+    },
+
+    async handleUpdateWahana(req, res){
+        try {
+            const id = req.params.id
+            const body = req.body
+
+            const param =  await wahanaService.findByPk(id)
+
+            if(!param){
+               throw new Error('ID tidak ditemukan')
+            }
+            await wahanaService.update(id, body)
+                res.status(201).json({
+                status: 'OK',
+                message: 'Data berhasil diupdate'
+            })
+            
+        } catch (err) {
+            res.status(401).json({
+                status: 'FAIL',
+                message: err.message
+            })
+        }
+    },
+
+
 }

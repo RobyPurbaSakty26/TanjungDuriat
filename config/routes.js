@@ -11,6 +11,7 @@ apiRouter.get('/', controllers.api.main.handleGetRoot);
 
 apiRouter.get('/api/v1/wahana', controllers.api.v1.wahanaContriller.handleGetAllWahana)
 apiRouter.post('/api/v1/wahana', controllers.api.v1.wahanaContriller.handleCreateWahana)
+apiRouter.put('/api/v1/wahana/:id', controllers.api.v1.wahanaContriller.handleUpdateWahana)
 
 apiRouter.use(controllers.api.main.onLost);
 apiRouter.use(controllers.api.main.onError);

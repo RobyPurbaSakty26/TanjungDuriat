@@ -1,19 +1,23 @@
-const {wahana} = require('../models')
+const {Wahana} = require('../models')
 
 module.exports = {
     getAll(body){
-        return wahana.findAll()
+        return Wahana.findAll()
     },
 
     count(){
-        return wahana.count()
+        return Wahana.count()
     },
 
     create(body){
-        return wahana.create(body)
+        return Wahana.create(body)
     },
 
     update(id, body){
-        return wahana.update(body, {where: {id}})
+        return Wahana.update(body, {where: {id}})
+    },
+
+    findByPk(id){
+        return Wahana.findByPk(id)
     }
 }

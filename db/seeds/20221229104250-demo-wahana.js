@@ -12,7 +12,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await queryInterface.bulkInsert('wahanas', [{
+   await queryInterface.bulkInsert('Wahanas', [{
        paket: '1',
        nama_wahana: 'Skuter',
        domisili:'Majalengka',
