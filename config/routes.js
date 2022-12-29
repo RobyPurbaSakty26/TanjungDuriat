@@ -13,6 +13,7 @@ apiRouter.get('/api/v1/wahana', controllers.api.v1.wahanaContriller.handleGetAll
 apiRouter.post('/api/v1/wahana', controllers.api.v1.wahanaContriller.handleCreateWahana)
 apiRouter.put('/api/v1/wahana/:id', controllers.api.v1.wahanaContriller.handleUpdateWahana)
 apiRouter.get('/api/v1/wahana/:id', controllers.api.v1.wahanaContriller.handleGetByPkWahana)
+apiRouter.delete('/api/v1/wahana/:id', controllers.api.v1.wahanaContriller.handleDeleteWahana)
 
 apiRouter.use(controllers.api.main.onLost);
 apiRouter.use(controllers.api.main.onError);

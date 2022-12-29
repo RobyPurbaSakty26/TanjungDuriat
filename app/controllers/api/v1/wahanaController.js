@@ -77,12 +77,31 @@ module.exports ={
             status: 'FAIL',
             message: err.message
         })
+       }
+    },
+
+    async handleDeleteWahana(req, res){
+       try {
+        const id = req.params.id
+
+        const wahana = await wahanaService.findByPk(id)
+        if(!wahana){
+            throw new Error('Data tidak ditemukan')
+        }
+        await wahanaService.delete(id)
+
+        res.status(201).json({
+            status: 'OK',
+            message: 'Data berhasil dihapus'
+        })
+       } catch (err) {
+
+        res.status(401).json({
+            status:'FAIL',
+            message: err.message
+        })
         
        }
-
-
-        
-
     }
 
 
