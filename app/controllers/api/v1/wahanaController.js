@@ -38,7 +38,7 @@ module.exports ={
     async handleUpdateWahana(req, res){
         try {
             const id = req.params.id
-            const body = req.body
+         const body = req.body
 
             const param =  await wahanaService.findByPk(id)
 
@@ -58,6 +58,32 @@ module.exports ={
             })
         }
     },
+
+    async handleGetByPkWahana(req, res){
+       try {
+        const id = req.params.id
+       console.log(id)
+        const wahana = await wahanaService.findByPk(id)
+        if(!wahana) {
+            throw new Error('Data tidak ditemukan')
+        }
+
+        res.status(201).json({
+            status: 'OK',
+            data: wahana
+        })
+       } catch (err) {
+        res.status(401).json({
+            status: 'FAIL',
+            message: err.message
+        })
+        
+       }
+
+
+        
+
+    }
 
 
 }

@@ -19,5 +19,9 @@ module.exports = {
 
     findByPk(id){
         return Wahana.findByPk(id)
+    },
+
+    delete(id){
+        return Wahana.destroy({where: {id}})
     }
 }

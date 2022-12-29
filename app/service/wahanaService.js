@@ -25,5 +25,9 @@ module.exports={
 
     findByPk(id){
         return wahanaRepository.findByPk(id)
+    },
+
+    delete(id){
+        return  wahanaRepository.delete(id)
     }
 }
