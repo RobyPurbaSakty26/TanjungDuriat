@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node -r dotenv/config bin/www",
     "develop": "nodemon -r dotenv/config bin/www",
     "create": "sequelize db:create",
@@ -12,8 +11,9 @@
     "migrate": "sequelize db:migrate",
     "rollback": "sequelize db:migrate:undo",
     "seed": "sequelize db:seed:all",
-    "deploy": "yarn drop && yarn cretae && yarn migrate",
-    "jest": "jest"
+    "deploy": "yarn drop && yarn create && yarn migrate",
+    "jest": "jest",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +26,10 @@
     "multer": "^1.4.5-lts.1",
     "nodemon": "^2.0.20",
     "pg": "^8.8.0",
-    "sequelize": "^6.25.5"
+    "sequelize": "^6.25.5",
+    "sequelize-cli": "^6.5.2"
+  },
+  "devDependencies": {
+    "jest": "^29.3.1"
   }
 }
