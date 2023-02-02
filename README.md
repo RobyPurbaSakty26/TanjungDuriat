@@ -5,7 +5,7 @@ Tanjung Duriat is project of maggang. we are making problem there with technolog
 ## Get Started
 
 Install dependencies
-\
+
 `yarn add`
 
 Run Progran
