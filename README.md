@@ -22,7 +22,7 @@ Run Progran
 
 Set up env in raiwal App
 
-```
+```code
 {
     "DB_HOST":"containers-us-west-156.railway.app",
     "DB_NAME":"railway","DB_PASSWORD":"EdqBIE8GX19AnhxKOAxP",
