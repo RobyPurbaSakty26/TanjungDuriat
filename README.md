@@ -20,9 +20,13 @@ Run Progran
 
 ## Env
 
-DB_HOST=containers-us-west-156.railway.app
-DB_NAME=railway
-DB_PASSWORD=EdqBIE8GX19AnhxKOAxP
-DB_PORT=5760
-DB_USER=postgres
-JWT_SIGNATURE_KEY=Rahasia
+Set up env in raiwal App
+
+```
+{
+    "DB_HOST":"containers-us-west-156.railway.app",
+    "DB_NAME":"railway","DB_PASSWORD":"EdqBIE8GX19AnhxKOAxP",
+    "DB_PORT":"5760","DB_USER":"postgres",
+    "JWT_SIGNATURE_KEY":"Rahasia"
+}
+```
