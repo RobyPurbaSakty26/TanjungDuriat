@@ -14,6 +14,13 @@ apiRouter.post(
   controllers.api.v1.userContriller.hadnleCreateUser
 );
 
+apiRouter.get(
+  "/api/v1/users",
+  controllers.api.v1.userContriller.handleGetAllUsers
+);
+
+apiRouter.post("/api/v1/login", controllers.api.v1.userContriller.handleLogin);
+
 // wahana
 apiRouter.get(
   "/api/v1/wahana",

@@ -12,4 +12,8 @@ module.exports = {
   count() {
     return User.count();
   },
+
+  findUser(condition) {
+    return User.findOne({ where: condition });
+  },
 };
