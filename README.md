@@ -30,3 +30,7 @@ Set up env in raiwal App
     "JWT_SIGNATURE_KEY":"Rahasia"
 }
 ```
+
+## Database
+
+![Database](./doc/img/tandur.drawio.png)
