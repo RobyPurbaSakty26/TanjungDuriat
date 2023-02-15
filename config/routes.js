@@ -10,16 +10,28 @@ apiRouter.get("/", controllers.api.main.handleGetRoot);
 
 // users
 apiRouter.post(
-  "/api/v1/users",
-  controllers.api.v1.userContriller.hadnleCreateUser
+  "/api/v1/register-admin-wahana",
+  controllers.api.v1.authContriller.hadnleCreateUserAdminWahana
 );
-
+apiRouter.get(
+  "/api/v1/whoim",
+  controllers.api.v1.authContriller.handleAuthorize,
+  controllers.api.v1.authContriller.whoIm
+);
 apiRouter.get(
   "/api/v1/users",
-  controllers.api.v1.userContriller.handleGetAllUsers
+  controllers.api.v1.authContriller.handleGetAllUsers
 );
+apiRouter.post("/api/v1/login", controllers.api.v1.authContriller.handleLogin);
 
-apiRouter.post("/api/v1/login", controllers.api.v1.userContriller.handleLogin);
+apiRouter.put(
+  "/api/v1/users/:id",
+  controllers.api.v1.usersCotroller.handleUpdateUser
+);
+apiRouter.delete(
+  "/api/v1/users/:id",
+  controllers.api.v1.usersCotroller.handleDeleteUser
+);
 
 // wahana
 apiRouter.get(

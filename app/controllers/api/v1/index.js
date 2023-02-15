@@ -1,7 +1,9 @@
 const wahanaContriller = require("./wahanaController");
-const userContriller = require("./userController");
+const authContriller = require("./authController");
+const usersCotroller = require("./userContriller");
 
 module.exports = {
   wahanaContriller,
-  userContriller,
+  authContriller,
+  usersCotroller,
 };

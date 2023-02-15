@@ -33,7 +33,22 @@ function verifyToken(token) {
   return jwt.verify(token, SECRET_KEY);
 }
 
+function verifyEmail(Email) {
+  const re =
+    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+  if (!re.test(Email)) {
+    const err = new Error("Format E-mail salah");
+    throw err;
+  }
+}
+
 module.exports = {
+  verifyToken,
+  encryptPassword,
+  comparePassword,
+  createWebToken,
+  verifyEmail,
   async create(Name, Email, Password, Role) {
     try {
       const user = await userRepository.findUser({ Email });
@@ -106,5 +121,37 @@ module.exports = {
     } catch (err) {
       throw err;
     }
+  },
+
+  async authorize(token) {
+    try {
+      const payload = verifyToken(token);
+      const id = payload?.id;
+      const user = await userRepository.findUser(id);
+      return user;
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  async update(body, id) {
+    try {
+      const Email = body.Email;
+      if (Email) {
+        const user = await userRepository.findUser({ Email });
+        if (user) {
+          const err = new Error("Email telah digunakan");
+          throw err;
+        }
+      }
+
+      return userRepository.update(body, id);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  delete(id) {
+    return userRepository.delete(id);
   },
 };
