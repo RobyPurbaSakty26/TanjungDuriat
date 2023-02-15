@@ -154,4 +154,8 @@ module.exports = {
   delete(id) {
     return userRepository.delete(id);
   },
+
+  getByPk(id) {
+    return userRepository.getByPk(id);
+  },
 };

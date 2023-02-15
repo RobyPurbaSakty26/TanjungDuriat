@@ -24,4 +24,8 @@ module.exports = {
   delete(id) {
     return User.destroy({ where: { id } });
   },
+
+  getByPk(id) {
+    return User.findByPk(id);
+  },
 };

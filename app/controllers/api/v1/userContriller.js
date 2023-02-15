@@ -43,4 +43,21 @@ module.exports = {
       });
     }
   },
+
+  async handleGetByPkUser(req, res) {
+    try {
+      const id = req.params.id;
+      const user = await userService.getByPk(id);
+
+      res.status(201).json({
+        status: "OK",
+        data: user,
+      });
+    } catch (err) {
+      res.status(401).json({
+        status: "OK",
+        message: err.message,
+      });
+    }
+  },
 };

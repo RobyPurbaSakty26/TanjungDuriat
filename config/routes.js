@@ -32,6 +32,10 @@ apiRouter.delete(
   "/api/v1/users/:id",
   controllers.api.v1.usersCotroller.handleDeleteUser
 );
+apiRouter.get(
+  "/api/v1/users/:id",
+  controllers.api.v1.usersCotroller.handleGetByPkUser
+);
 
 // wahana
 apiRouter.get(
