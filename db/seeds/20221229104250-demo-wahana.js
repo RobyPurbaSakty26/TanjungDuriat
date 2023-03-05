@@ -19,7 +19,6 @@ module.exports = {
         {
           NamaWahana: "Balon",
           Status: true,
-          domisili: "Majalengka",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
