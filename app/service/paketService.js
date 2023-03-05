@@ -1,9 +1,9 @@
-const pakteRepository = require("../repository/paketRepository");
+const paketRepository = require("../repository/paketRepository");
 
 module.exports = {
   async create(body) {
-    const data = await pakteRepository.create(body);
-    const count = await pakteRepository.count();
+    const data = await paketRepository.create(body);
+    const count = await paketRepository.count();
     return {
       data,
       count,
@@ -11,11 +11,15 @@ module.exports = {
   },
 
   async getAll() {
-    const data = await pakteRepository.getAll();
-    const count = await pakteRepository.count();
+    const data = await paketRepository.getAll();
+    const count = await paketRepository.count();
     return {
       data,
       count,
     };
+  },
+
+  getByPk(id) {
+    return paketRepository.getByPk(id);
   },
 };

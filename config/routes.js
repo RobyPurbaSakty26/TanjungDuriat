@@ -60,13 +60,17 @@ apiRouter.delete(
 );
 
 // paket
-apiRouter.put(
+apiRouter.post(
   "/api/v1/paket",
   controllers.api.v1.paketCotroller.handlerCreatePaket
 );
 apiRouter.get(
   "/api/v1/paket",
   controllers.api.v1.paketCotroller.handlerGetAllPaket
+);
+apiRouter.get(
+  "/api/v1/paket/:id",
+  controllers.api.v1.paketCotroller.handlerGetByPkPaket
 );
 
 apiRouter.use(controllers.api.main.onLost);

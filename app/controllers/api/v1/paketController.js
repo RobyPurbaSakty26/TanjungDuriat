@@ -34,4 +34,20 @@ module.exports = {
       });
     }
   },
+
+  async handlerGetByPkPaket(req, res) {
+    try {
+      const id = req.params.id;
+      const data = await paketService.getByPk(id);
+      res.status(200).json({
+        status: "OK",
+        data,
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: "FAIL",
+        message: err.message,
+      });
+    }
+  },
 };
