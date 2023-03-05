@@ -6,4 +6,7 @@ module.exports = {
   count() {
     return Paket.count();
   },
+  getAll() {
+    return Paket.findAll();
+  },
 };
