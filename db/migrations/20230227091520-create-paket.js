@@ -1,37 +1,38 @@
-'use strict';
+/* eslint-disable no-unused-vars */
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Pakets', {
+    await queryInterface.createTable("Pakets", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       idWahana: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       NamaPaket: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       Harga: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       Keterangan: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Pakets');
-  }
+    await queryInterface.dropTable("Pakets");
+  },
 };

@@ -1,9 +1,9 @@
+/* eslint-disable no-useless-catch */
 const userRepository = require("../repository/userRepository");
 
 const bcrypt = require("bcryptjs");
 // const userRepository = require("../repositories/userRepository");
 const jwt = require("jsonwebtoken");
-const { use } = require("../../config/routes");
 
 const SECRET_KEY = "Secret";
 
@@ -35,6 +35,7 @@ function verifyToken(token) {
 
 function verifyEmail(Email) {
   const re =
+    // eslint-disable-next-line no-useless-escape
     /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
   if (!re.test(Email)) {

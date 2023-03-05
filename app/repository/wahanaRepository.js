@@ -1,7 +1,7 @@
 const { Wahana } = require("../models");
 
 module.exports = {
-  getAll(body) {
+  getAll() {
     return Wahana.findAll();
   },
 

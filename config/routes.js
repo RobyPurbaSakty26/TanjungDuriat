@@ -59,6 +59,11 @@ apiRouter.delete(
   controllers.api.v1.wahanaContriller.handleDeleteWahana
 );
 
+apiRouter.put(
+  "/api/v1/paket",
+  controllers.api.v1.paketCotroller.handlerCreatePaket
+);
+
 apiRouter.use(controllers.api.main.onLost);
 apiRouter.use(controllers.api.main.onError);
 

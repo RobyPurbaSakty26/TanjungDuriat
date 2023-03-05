@@ -2,6 +2,7 @@ const wahanaRepository = require("../repository/wahanaRepository");
 
 module.exports = {
   async getAll() {
+    // eslint-disable-next-line no-useless-catch
     try {
       const data = await wahanaRepository.getAll();
       const count = await wahanaRepository.count();
