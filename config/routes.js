@@ -81,6 +81,28 @@ apiRouter.delete(
   controllers.api.v1.paketCotroller.handlerDeletePaket
 );
 
+// pemasukan
+apiRouter.post(
+  "/api/v1/pemasukan",
+  controllers.api.v1.pemasukanController.handlerCreatePemasukan
+);
+apiRouter.get(
+  "/api/v1/pemasukan",
+  controllers.api.v1.pemasukanController.handlerGetAllPemasukan
+);
+apiRouter.get(
+  "/api/v1/pemasukan/:id",
+  controllers.api.v1.pemasukanController.handlerGetByPkPemasukan
+);
+apiRouter.put(
+  "/api/v1/pemasukan/:id",
+  controllers.api.v1.pemasukanController.handlerUpdatePemasukan
+);
+apiRouter.delete(
+  "/api/v1/pemasukan/:id",
+  controllers.api.v1.pemasukanController.handlerDeletePemasukan
+);
+
 apiRouter.use(controllers.api.main.onLost);
 apiRouter.use(controllers.api.main.onError);
 

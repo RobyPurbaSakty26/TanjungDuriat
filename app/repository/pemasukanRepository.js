@@ -22,6 +22,6 @@ module.exports = {
   },
 
   delete(id) {
-    return Pemasukan.destroy(id);
+    return Pemasukan.destroy({ where: { id } });
   },
 };
