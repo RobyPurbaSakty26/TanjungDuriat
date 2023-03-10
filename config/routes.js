@@ -72,6 +72,14 @@ apiRouter.get(
   "/api/v1/paket/:id",
   controllers.api.v1.paketCotroller.handlerGetByPkPaket
 );
+apiRouter.put(
+  "/api/v1/paket/:id",
+  controllers.api.v1.paketCotroller.handlerUpdatePaket
+);
+apiRouter.delete(
+  "/api/v1/paket/:id",
+  controllers.api.v1.paketCotroller.handlerDeletePaket
+);
 
 apiRouter.use(controllers.api.main.onLost);
 apiRouter.use(controllers.api.main.onError);

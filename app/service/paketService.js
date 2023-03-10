@@ -22,4 +22,12 @@ module.exports = {
   getByPk(id) {
     return paketRepository.getByPk(id);
   },
+
+  update(id, body) {
+    return paketRepository.update(id, body);
+  },
+
+  delete(id) {
+    return paketRepository.delete(id);
+  },
 };

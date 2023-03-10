@@ -13,10 +13,14 @@ module.exports = {
   },
 
   update(id, body) {
-    return Paket.update(body, { where: id });
+    return Paket.update(body, { where: { id } });
   },
 
   getByPk(id) {
     return Paket.findByPk(id);
+  },
+
+  delete(id) {
+    return Paket.destroy({ where: { id } });
   },
 };
