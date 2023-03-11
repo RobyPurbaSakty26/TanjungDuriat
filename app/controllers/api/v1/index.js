@@ -3,6 +3,7 @@ const authContriller = require("./authController");
 const usersCotroller = require("./userContriller");
 const paketCotroller = require("./paketController");
 const pengeluaranController = require("./pengeluaranController");
+const pemasukanContriller = require("./pemasukanController");
 
 module.exports = {
   wahanaContriller,
@@ -10,4 +11,5 @@ module.exports = {
   usersCotroller,
   paketCotroller,
   pengeluaranController,
+  pemasukanContriller,
 };
