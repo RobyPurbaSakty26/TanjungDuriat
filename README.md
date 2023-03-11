@@ -14,7 +14,7 @@ Run Progran
 
 ## Tools
 
-- React js.
+- Express
 - Sequelize
 - Postgres
 
