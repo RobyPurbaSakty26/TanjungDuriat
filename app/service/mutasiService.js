@@ -26,4 +26,16 @@ module.exports = {
   delete(id) {
     return mutasiRepository.delete(id);
   },
+
+  async isId(id) {
+    const idPk = await this.getByPk(id);
+    if (!idPk) {
+      const status = 404;
+      const message = "Id tidak ditemukan";
+      return {
+        status,
+        message,
+      };
+    }
+  },
 };

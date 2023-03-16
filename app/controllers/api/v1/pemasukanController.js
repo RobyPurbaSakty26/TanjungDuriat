@@ -21,7 +21,6 @@ module.exports = {
   async handlerGetByPkPemasukan(req, res) {
     try {
       const id = req.params.id;
-      const data = await pemeasukanService.getByPk(id);
 
       if (!id) {
         return res.status(404).json({
@@ -29,6 +28,7 @@ module.exports = {
           message: "Data tidak ditemukan",
         });
       }
+      const data = await pemeasukanService.getByPk(id);
 
       return res.status(200).json({
         status: "OK",
