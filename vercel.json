@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "-r dotenv/config /bin/www.js",
+      "src": "bin/www.js",
       "use": "@now/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "-r dotenv/config /bin/www.js"
+      "dest": "bin/www.js"
     }
   ]
 }
