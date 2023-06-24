@@ -23,4 +23,9 @@ module.exports = {
   delete(id) {
     return Mutasi.destroy({ where: { id } });
   },
+  lastRecord() {
+    return Mutasi.findOne({
+      order: [["createdAt", "DESC"]],
+    });
+  },
 };

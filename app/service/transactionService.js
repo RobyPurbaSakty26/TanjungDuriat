@@ -46,4 +46,17 @@ module.exports = {
       throw new Error(err);
     }
   },
+
+  getByDate(from, to) {
+    return transactionRepository.findByDate(from, to);
+  },
+
+  async countIcome(from, to) {
+    const data = await this.getByDate(from, to);
+    let saldo = 0;
+    for (let i = 0; i < data.length; i++) {
+      saldo = saldo + data[i].dataValues.countPrice;
+    }
+    return saldo;
+  },
 };

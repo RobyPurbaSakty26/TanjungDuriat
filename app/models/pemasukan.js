@@ -15,14 +15,14 @@ module.exports = (sequelize, DataTypes) => {
   Pemasukan.init(
     {
       idUser: DataTypes.INTEGER,
-      dariDate: DataTypes.DATE,
-      sampaiDate: DataTypes.DATE,
-      Jumlah: DataTypes.INTEGER,
+      FromDate: DataTypes.DATE,
+      ToDate: DataTypes.DATE,
+      Count: DataTypes.INTEGER,
       Keterangan: DataTypes.STRING,
     },
     {
       sequelize,
-      modelName: "Pemasukan",
+      modelName: "Income",
     }
   );
   return Pemasukan;

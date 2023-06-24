@@ -26,4 +26,7 @@ module.exports = {
   delete(id) {
     return mutasiRepository.delete(id);
   },
+  lastRecord() {
+    return mutasiRepository.lastRecord();
+  },
 };

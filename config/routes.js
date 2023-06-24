@@ -130,6 +130,24 @@ apiRouter.post(
   "/api/v1/transaction",
   controllers.api.v1.transactionController.handllerCreateTransaction
 );
+apiRouter.get(
+  "/api/v1/transaction",
+  controllers.api.v1.transactionController.getByDate
+);
+apiRouter.get(
+  "/api/v1/transaction/last",
+  controllers.api.v1.transactionController.lastTransaction
+);
+apiRouter.get(
+  "/api/v1/transaction/saldo",
+  controllers.api.v1.transactionController.total
+);
+
+// mutasi
+apiRouter.get(
+  "/api/v1/mutasi",
+  controllers.api.v1.mutasiContoller.handlerGettAllMutasi
+);
 
 apiRouter.use(controllers.api.main.onLost);
 apiRouter.use(controllers.api.main.onError);

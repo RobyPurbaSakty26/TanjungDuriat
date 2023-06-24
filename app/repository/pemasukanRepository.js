@@ -1,26 +1,26 @@
-const { Pemasukan } = require("../models");
+const { Income } = require("../models");
 module.exports = {
   create(body) {
-    return Pemasukan.create(body);
+    return Income.create(body);
   },
 
   getAll() {
-    return Pemasukan.findAll();
+    return Income.findAll();
   },
 
   count() {
-    return Pemasukan.count();
+    return Income.count();
   },
 
   getByPk(id) {
-    return Pemasukan.findByPk(id);
+    return Income.findByPk(id);
   },
 
   update(id, body) {
-    return Pemasukan.update(body, { where: { id } });
+    return Income.update(body, { where: { id } });
   },
 
   delete(id) {
-    return Pemasukan.destroy({ where: { id } });
+    return Income.destroy({ where: { id } });
   },
 };

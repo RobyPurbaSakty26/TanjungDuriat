@@ -5,6 +5,7 @@ const paketCotroller = require("./paketController");
 const pengeluaranController = require("./pengeluaranController");
 const pemasukanContriller = require("./pemasukanController");
 const transactionController = require("./transactionController");
+const mutasiContoller = require("./mutasiController");
 
 module.exports = {
   wahanaContriller,
@@ -13,5 +14,6 @@ module.exports = {
   paketCotroller,
   pengeluaranController,
   pemasukanContriller,
+  mutasiContoller,
   transactionController,
 };
