@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Pemasukans", {
+    await queryInterface.createTable("Incomes", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,13 +13,13 @@ module.exports = {
       idUser: {
         type: Sequelize.INTEGER,
       },
-      dariDate: {
+      FromDate: {
         type: Sequelize.DATE,
       },
-      sampaiDate: {
+      ToDate: {
         type: Sequelize.DATE,
       },
-      Jumlah: {
+      Count: {
         type: Sequelize.INTEGER,
       },
       Keterangan: {

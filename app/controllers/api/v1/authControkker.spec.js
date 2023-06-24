@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+
 const userService = require("../../../service/userService");
 const UserControllers = require("./authController");
 
@@ -215,6 +216,130 @@ describe("handleLogin", () => {
     expect(res.json).toHaveBeenCalledWith({
       status: "FAIL",
       message: "Incorrect login details",
+    });
+  });
+});
+
+describe("handller authorizde", () => {
+  test("success authorize and next", async () => {
+    userService.authorize = jest.fn().mockResolvedValue({
+      id: 1,
+      username: "Joe",
+    });
+
+    const next = jest.fn();
+
+    const req = {
+      headers: {
+        authorization: "Bearer token-example",
+      },
+    };
+
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
+    await UserControllers.handleAuthorize(req, res, next);
+
+    expect(userService.authorize).toHaveBeenCalledWith("token-example");
+    expect(req.user).toEqual({ id: 1, username: "Joe" });
+    expect(next).toHaveBeenCalled();
+  });
+
+  test("handllerAuthorization res 402 with", async () => {
+    // mock
+
+    userService.authorize = jest.fn().mockRejectedValue();
+    const req = {
+      headers: {},
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+    const next = jest.fn();
+
+    await UserControllers.handleAuthorize(req, res, next);
+
+    expect(userService.authorize).not.toHaveBeenCalled();
+    expect(req.user).toBeUndefined();
+    expect(res.status).toHaveBeenCalledWith(402);
+    expect(res.json).toHaveBeenCalledWith({
+      status: "FAIL",
+      message: "Bearer token salah",
+    });
+    expect(next).not.toHaveBeenCalled();
+  });
+
+  test("retun err bearer token salah", async () => {
+    userService.authorize = jest.fn().mockResolvedValue(null);
+    const req = {
+      headers: {
+        authorization: "Bearer invalidToken",
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn().mockReturnValue({
+        status: "FAIL",
+        message: "Unautorize",
+      }),
+    };
+    const next = jest.fn();
+
+    await UserControllers.handleAuthorize(req, res, next);
+    expect(userService.authorize).toHaveBeenCalledWith("invalidToken");
+    expect(req.user).toBeUndefined();
+    expect(res.status).toHaveBeenCalledWith(402);
+    expect(res.json).toHaveBeenCalledWith({
+      status: "FAIL",
+      message: "Unautorize",
+    });
+    expect(next).not.toHaveBeenCalled();
+  });
+});
+
+describe("WhoIm", () => {
+  test("should retun response 201", async () => {
+    const req = {
+      user: {
+        id: 1,
+        username: "testuser",
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
+    await UserControllers.whoIm(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith({
+      status: "OK",
+      data: {
+        id: 1,
+        username: "testuser",
+      },
+    });
+  });
+
+  test("should retun statue 401 status fail", async () => {
+    const req = {};
+
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+    const err = new Error("User not found");
+
+    await UserControllers.whoIm(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(401);
+    expect(res.json).toHaveBeenCalledWith({
+      status: "FAIL",
+      message: err.message,
     });
   });
 });

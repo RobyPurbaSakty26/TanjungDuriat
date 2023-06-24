@@ -13,13 +13,13 @@ module.exports = {
       idWahana: {
         type: Sequelize.INTEGER,
       },
-      NamaPaket: {
+      NamePackage: {
         type: Sequelize.STRING,
       },
-      Harga: {
+      Price: {
         type: Sequelize.INTEGER,
       },
-      Keterangan: {
+      Description: {
         type: Sequelize.STRING,
       },
       createdAt: {

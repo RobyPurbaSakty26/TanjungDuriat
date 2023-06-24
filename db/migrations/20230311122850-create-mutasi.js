@@ -1,43 +1,38 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Mutasis', {
+    await queryInterface.createTable("Mutasis", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
-      idPemasukan: {
-        type: Sequelize.INTEGER
+      idIncome: {
+        type: Sequelize.INTEGER,
       },
-      idPengeluaran: {
-        type: Sequelize.INTEGER
+      idExpenditure: {
+        type: Sequelize.INTEGER,
       },
-      Pengeluaran: {
-        type: Sequelize.INTEGER
+      Saldo: {
+        type: Sequelize.INTEGER,
       },
-      Pemasukan: {
-        type: Sequelize.INTEGER
-      },
-      TotalSaldo: {
-        type: Sequelize.INTEGER
-      },
-      Keterangan: {
-        type: Sequelize.STRING
+      Date: {
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
+  // eslint-disable-next-line no-unused-vars
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Mutasis');
-  }
+    await queryInterface.dropTable("Mutasis");
+  },
 };

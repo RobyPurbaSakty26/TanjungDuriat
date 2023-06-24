@@ -60,7 +60,7 @@ module.exports = {
     try {
       const barerToken = req.headers.authorization;
       if (!barerToken) {
-        const err = new Error("Barer token salah");
+        const err = new Error("Bearer token salah");
         throw err;
       }
       const token = barerToken.split("Bearer ")[1];
@@ -82,6 +82,10 @@ module.exports = {
   async whoIm(req, res) {
     try {
       const user = req.user;
+      if (!user) {
+        const err = new Error("User not found");
+        throw err;
+      }
       res.status(201).json({
         status: "OK",
         data: user,

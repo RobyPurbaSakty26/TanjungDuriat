@@ -125,6 +125,12 @@ apiRouter.delete(
   controllers.api.v1.pemasukanContriller.handlerDeletePemasukan
 );
 
+// transaction
+apiRouter.post(
+  "/api/v1/transaction",
+  controllers.api.v1.transactionController.handllerCreateTransaction
+);
+
 apiRouter.use(controllers.api.main.onLost);
 apiRouter.use(controllers.api.main.onError);
 

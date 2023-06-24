@@ -1,7 +1,6 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+/* eslint-disable no-unused-vars */
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Mutasi extends Model {
     /**
@@ -13,16 +12,17 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Mutasi.init({
-    idPemasukan: DataTypes.INTEGER,
-    idPengeluaran: DataTypes.INTEGER,
-    Pengeluaran: DataTypes.INTEGER,
-    Pemasukan: DataTypes.INTEGER,
-    TotalSaldo: DataTypes.INTEGER,
-    Keterangan: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Mutasi',
-  });
+  Mutasi.init(
+    {
+      idIncome: DataTypes.INTEGER,
+      idExpenditure: DataTypes.INTEGER,
+      Saldo: DataTypes.INTEGER,
+      Date: DataTypes.DATE,
+    },
+    {
+      sequelize,
+      modelName: "Mutasi",
+    }
+  );
   return Mutasi;
 };

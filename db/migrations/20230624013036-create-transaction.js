@@ -3,25 +3,44 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Expenditures", {
+    await queryInterface.createTable("Transactions", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      idWahana: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Wahanas",
+          key: "id",
+        },
+      },
       idUser: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "Users",
+          key: "id",
+        },
       },
-      Date: {
-        type: Sequelize.DATE,
+      paketId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Pakets",
+          key: "id",
+        },
       },
-      Count: {
+      countTiket: {
         type: Sequelize.INTEGER,
       },
-      Description: {
-        type: Sequelize.STRING,
+      countPrice: {
+        type: Sequelize.INTEGER,
       },
+      date: {
+        type: Sequelize.DATE,
+      },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -33,6 +52,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Pengeluarans");
+    await queryInterface.dropTable("Transactions");
   },
 };

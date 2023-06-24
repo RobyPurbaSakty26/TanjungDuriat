@@ -10,11 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      wahana.hasMany(models.Transaction, {
+        foreignKey: "idWahana",
+      });
     }
   }
   wahana.init(
     {
-      NamaWahana: DataTypes.STRING,
+      NameWahana: DataTypes.STRING,
       Status: DataTypes.STRING,
     },
     {
