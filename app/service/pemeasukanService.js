@@ -29,6 +29,7 @@ module.exports = {
       const income = await transactionService.countIcome(body.from, body.to);
 
       body = {
+        ...body,
         FromDate: body.from,
         ToDate: body.to,
         Count: income,

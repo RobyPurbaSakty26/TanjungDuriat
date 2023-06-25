@@ -6,13 +6,13 @@ module.exports = {
       const { data, count } = await wahanaService.getAll();
 
       res.status(201).json({
-        status: "OK",
+        status: "Ok",
         data: data,
         count: count,
       });
     } catch (err) {
       res.status(401).json({
-        status: "FAIL",
+        status: "Fail",
         message: err.message,
       });
     }
@@ -23,12 +23,12 @@ module.exports = {
       const wahana = await wahanaService.create(body);
 
       res.status(201).json({
-        status: "OK",
+        status: "Ok",
         data: wahana,
       });
     } catch (err) {
       res.status(401).json({
-        status: "FAIL",
+        status: "Fail",
         message: err.message,
       });
     }
@@ -46,12 +46,12 @@ module.exports = {
       }
       await wahanaService.update(id, body);
       res.status(200).json({
-        status: "OK",
+        status: "Ok",
         message: "Data berhasil diupdate",
       });
     } catch (err) {
       res.status(401).json({
-        status: "FAIL",
+        status: "Fail",
         message: err.message,
       });
     }
@@ -60,19 +60,19 @@ module.exports = {
   async handleGetByPkWahana(req, res) {
     try {
       const id = req.params.id;
-      console.log(id);
+
       const wahana = await wahanaService.findByPk(id);
       if (!wahana) {
         throw new Error("Data tidak ditemukan");
       }
 
       res.status(201).json({
-        status: "OK",
+        status: "Ok",
         data: wahana,
       });
     } catch (err) {
       res.status(401).json({
-        status: "FAIL",
+        status: "Fail",
         message: err.message,
       });
     }
@@ -89,12 +89,12 @@ module.exports = {
       await wahanaService.delete(id);
 
       res.status(201).json({
-        status: "OK",
+        status: "Ok",
         message: "Data berhasil dihapus",
       });
     } catch (err) {
       res.status(401).json({
-        status: "FAIL",
+        status: "Fail",
         message: err.message,
       });
     }

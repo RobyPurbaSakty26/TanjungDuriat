@@ -1,183 +1,429 @@
-/* eslint-disable no-undef */
-"use strict";
-const { Wahana } = require("../../../models");
 const wahanaService = require("../../../service/wahanaService");
-const WahanaService = require("../../../service/wahanaService");
-const WahanaController = require("./wahanaController");
-jest.mock("../../../models");
+const wahanaController = require("./wahanaController");
 
-describe("#handleWhanaGetAll", () => {
-  test("should call res.status(201) with json lis wahana", async () => {
-    const wahana = {
-      paket: "1",
-      domisili: "Sumedang",
-      nama_wahana: "Balon Udara",
-    };
+/* eslint-disable no-undef */
+jest.mock("../../../service/wahanaService");
 
-    // mock model
-    Wahana.findAll.mockResolvedValue(wahana);
-    Wahana.count.mockResolvedValue(1);
-
-    const { data, count } = await WahanaService.getAll();
-    const mockResponse = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn().mockReturnThis(),
-    };
-    const result = {
-      status: "OK",
-      data: data,
-      count: count,
-    };
-    const mockRequest = {};
-
-    await WahanaController.handleGetAllWahana(mockRequest, mockResponse);
-
-    expect(Wahana.findAll).toHaveBeenCalled();
-    expect(mockResponse.status).toHaveBeenCalledWith(201);
-    expect(mockResponse.json).toHaveBeenCalledWith(result);
-  });
-
-  test("should call res(401) satatus FAIL", async () => {
-    const err = new Error("Error");
-    const mockRequest = {};
-    const mockResponse = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn().mockReturnThis(),
-    };
-    // mock model
-    Wahana.findAll.mockReturnValue(Promise.reject(err));
-
-    await WahanaController.handleGetAllWahana(mockRequest, mockResponse);
-
-    expect(mockResponse.status).toHaveBeenCalledWith(401);
-    expect(mockResponse.json).toHaveBeenCalledWith({
-      status: "FAIL",
-      message: err.message,
-    });
-  });
-});
-
-describe("#hadleCreateWahana", () => {
-  it("sould call res.status(201) and res.json with wahana", async () => {
-    const mockRequest = {
-      body: {
-        paket: "1",
-        domisili: "Sumedang",
-        nama_wahana: "Balon",
-      },
-    };
-    const mockResponse = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn().mockReturnThis(),
-    };
-
-    // mockModel
-    Wahana.create.mockReturnValue(mockRequest.body);
-
-    await WahanaController.handleCreateWahana(mockRequest, mockResponse);
-
-    expect(mockResponse.status).toHaveBeenCalledWith(201);
-    expect(mockResponse.json).toHaveBeenCalledWith({
-      status: "OK",
-      data: mockRequest.body,
-    });
-  });
-
-  it("should call res.status(401) and res.json with err", async () => {
-    const err = new Error("err");
-    const mockRequest = {};
-    const mockResponse = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn().mockReturnThis(),
-    };
-
-    // mockModel
-    Wahana.create.mockReturnValue(Promise.reject(err));
-
-    await WahanaController.handleCreateWahana(mockRequest, mockResponse);
-
-    expect(mockResponse.status).toHaveBeenCalledWith(401);
-    expect(mockResponse.json).toHaveBeenCalledWith({
-      status: "FAIL",
-      message: err.message,
-    });
-  });
-});
-
-describe("handlerUpdateWahana", () => {
-  test("should retun res 200", async () => {
-    const req = {
+describe("handllerDeleteWahana", () => {
+  test("should return delete wahana success", async () => {
+    const mockReq = {
       params: {
-        id: 1,
-      },
-      body: {
-        // Mock the body data for the update operation
-        name: "Updated sekuter",
-        description: "Updated Description",
-        capacity: 10,
-        duration: 60,
-        // Include other relevant properties needed for the update
+        id: "validId",
       },
     };
-    const res = {
-      status: jest.fn().mockReturnThis(),
+
+    const mockRes = {
+      status: jest.fn(() => mockRes),
       json: jest.fn(),
     };
 
-    const mockWahana = {
-      id: "1",
-      name: "Sekuter",
-      description: "Description",
-      capacity: 10,
-      duration: 60,
-    };
-    wahanaService.findByPk = jest.fn().mockResolvedValue(mockWahana);
-    wahanaService.update = jest.fn();
+    const mockWahana = { id: "validId", name: "Wahana A" };
+    wahanaService.findByPk.mockResolvedValue(mockWahana);
+    jest.spyOn(wahanaService, "delete").mockResolvedValue();
 
-    await WahanaController.handleUpdateWahana(req, res);
-    expect(wahanaService.findByPk).toHaveBeenCalledWith(1);
-    expect(wahanaService.update).toHaveBeenCalledWith(1, {
-      name: "Updated sekuter",
-      description: "Updated Description",
-      capacity: 10,
-      duration: 60,
+    await wahanaController.handleDeleteWahana(mockReq, mockRes);
+
+    expect(mockRes.status).toHaveBeenCalledWith(201);
+    expect(mockRes.json).toHaveBeenCalledWith({
+      status: "Ok",
+      message: "Data berhasil dihapus",
     });
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({
-      status: "OK",
+  });
+
+  test("should return status 401 and an error message when invalid ID is provided", async () => {
+    const mockReq = {
+      params: {
+        id: "invalidId",
+      },
+    };
+
+    const mockRes = {
+      status: jest.fn(() => mockRes),
+      json: jest.fn(),
+    };
+    jest.spyOn(wahanaService, "findByPk").mockResolvedValue(null);
+
+    await wahanaController.handleDeleteWahana(mockReq, mockRes);
+
+    expect(wahanaService.findByPk).toHaveBeenCalledWith("invalidId");
+    expect(wahanaService.delete).not.toHaveBeenCalled();
+    expect(mockRes.status).toHaveBeenCalledWith(401);
+    expect(mockRes.json).toHaveBeenCalledWith({
+      status: "Fail",
+      message: "Data tidak ditemukan",
+    });
+  });
+
+  test("should return status 401 and an error message when an exception is thrown", async () => {
+    const mockReq = {
+      params: {
+        id: "validId",
+      },
+    };
+
+    const mockRes = {
+      status: jest.fn(() => mockRes),
+      json: jest.fn(),
+    };
+
+    const mockWahana = { id: "validId", name: "Wahana A" };
+    jest.spyOn(wahanaService, "findByPk").mockResolvedValue(mockWahana);
+    jest
+      .spyOn(wahanaService, "delete")
+      .mockRejectedValue(new Error("Some error occurred"));
+
+    await wahanaController.handleDeleteWahana(mockReq, mockRes);
+    expect(wahanaService.findByPk).toHaveBeenCalledWith("validId");
+    expect(wahanaService.delete).toHaveBeenCalledWith("validId");
+    expect(mockRes.status).toHaveBeenCalledWith(401);
+    expect(mockRes.json).toHaveBeenCalledWith({
+      status: "Fail",
+      message: "Some error occurred",
+    });
+  });
+});
+
+describe("handllerGetWahana", () => {
+  test("should return status 201 and data when getAll function is successful", async () => {
+    const mockData = [
+      { id: 1, name: "Wahana A" },
+      { id: 2, name: "Wahana B" },
+    ];
+    const mockCount = 2;
+
+    jest
+      .spyOn(wahanaService, "getAll")
+      .mockResolvedValue({ data: mockData, count: mockCount });
+
+    const mockReq = {};
+    const mockRes = {
+      status: jest.fn(() => mockRes),
+      json: jest.fn(),
+    };
+    await wahanaController.handleGetAllWahana(mockReq, mockRes);
+
+    expect(wahanaService.getAll).toHaveBeenCalled();
+    expect(mockRes.status).toHaveBeenCalledWith(201);
+    expect(mockRes.json).toHaveBeenCalledWith({
+      status: "Ok",
+      data: mockData,
+      count: mockCount,
+    });
+  });
+
+  test("should return status 401 and an error message when getAll function throws an error", async () => {
+    const err = "Error";
+
+    jest.spyOn(wahanaService, "getAll").mockRejectedValue(new Error(err));
+
+    const mockReq = {};
+    const mockRes = {
+      status: jest.fn(() => mockRes),
+      json: jest.fn(),
+    };
+
+    await wahanaController.handleGetAllWahana(mockReq, mockRes);
+    expect(wahanaService.getAll).toHaveBeenCalled();
+    expect(mockRes.status).toHaveBeenCalledWith(401);
+    expect(mockRes.json).toHaveBeenCalledWith({
+      status: "Fail",
+      message: err,
+    });
+  });
+});
+
+describe("handllerCreateWahana", () => {
+  test("should return status 201 and data when getAll function is successful", async () => {
+    const mockData = [
+      { id: 1, name: "Wahana A" },
+      { id: 2, name: "Wahana B" },
+    ];
+    const mockCount = 2;
+
+    jest
+      .spyOn(wahanaService, "getAll")
+      .mockResolvedValue({ data: mockData, count: mockCount });
+
+    const mockReq = {};
+    const mockRes = {
+      status: jest.fn(() => mockRes),
+      json: jest.fn(),
+    };
+
+    await wahanaController.handleGetAllWahana(mockReq, mockRes);
+    expect(wahanaService.getAll).toHaveBeenCalled();
+    expect(mockRes.status).toHaveBeenCalledWith(201);
+    expect(mockRes.json).toHaveBeenCalledWith({
+      status: "Ok",
+      data: mockData,
+      count: mockCount,
+    });
+  });
+
+  test("should return status 401 and an error message when getAll function throws an error", async () => {
+    const errorMessage = "Some error occurred";
+
+    jest
+      .spyOn(wahanaService, "getAll")
+      .mockRejectedValue(new Error(errorMessage));
+
+    const mockReq = {};
+    const mockRes = {
+      status: jest.fn(() => mockRes),
+      json: jest.fn(),
+    };
+
+    await wahanaController.handleGetAllWahana(mockReq, mockRes);
+
+    expect(wahanaService.getAll).toHaveBeenCalled();
+    expect(mockRes.status).toHaveBeenCalledWith(401);
+    expect(mockRes.json).toHaveBeenCalledWith({
+      status: "Fail",
+      message: errorMessage,
+    });
+  });
+});
+
+describe("handllerCreateteWahana", () => {
+  test("should return status 201 and the created data when create function is successful", async () => {
+    const mockRequestBody = { name: "Wahana A", description: "Description A" };
+    const mockCreatedWahana = {
+      id: 1,
+      name: "Wahana A",
+      description: "Description A",
+    };
+
+    jest.spyOn(wahanaService, "create").mockResolvedValue(mockCreatedWahana);
+
+    const mockReq = {
+      body: mockRequestBody,
+    };
+    const mockRes = {
+      status: jest.fn(() => mockRes),
+      json: jest.fn(),
+    };
+
+    await wahanaController.handleCreateWahana(mockReq, mockRes);
+
+    expect(wahanaService.create).toHaveBeenCalledWith(mockRequestBody);
+    expect(mockRes.status).toHaveBeenCalledWith(201);
+    expect(mockRes.json).toHaveBeenCalledWith({
+      status: "Ok",
+      data: mockCreatedWahana,
+    });
+  });
+
+  test("should return status 401 and an error message when create function throws an error", async () => {
+    const errorMessage = "Some error occurred";
+
+    jest
+      .spyOn(wahanaService, "create")
+      .mockRejectedValue(new Error(errorMessage));
+
+    const mockReq = {
+      body: { name: "Wahana A", description: "Description A" },
+    };
+    const mockRes = {
+      status: jest.fn(() => mockRes),
+      json: jest.fn(),
+    };
+
+    await wahanaController.handleCreateWahana(mockReq, mockRes);
+    expect(wahanaService.create).toHaveBeenCalledWith(mockReq.body);
+    expect(mockRes.status).toHaveBeenCalledWith(401);
+    expect(mockRes.json).toHaveBeenCalledWith({
+      status: "Fail",
+      message: errorMessage,
+    });
+  });
+});
+
+describe("handllerUpdateWahana", () => {
+  test("should return status 200 and a success message when valid ID and body are provided", async () => {
+    const mockId = "validId";
+    const mockRequestBody = {
+      name: "Updated Wahana A",
+      description: "Updated Description A",
+    };
+
+    jest.spyOn(wahanaService, "findByPk").mockResolvedValue({
+      id: mockId,
+      name: "Wahana A",
+      description: "Description A",
+    });
+    jest.spyOn(wahanaService, "update").mockResolvedValue();
+
+    const mockReq = {
+      params: {
+        id: mockId,
+      },
+      body: mockRequestBody,
+    };
+    const mockRes = {
+      status: jest.fn(() => mockRes),
+      json: jest.fn(),
+    };
+    await wahanaController.handleUpdateWahana(mockReq, mockRes);
+
+    expect(wahanaService.findByPk).toHaveBeenCalledWith(mockId);
+    expect(wahanaService.update).toHaveBeenCalledWith(mockId, mockRequestBody);
+    expect(mockRes.status).toHaveBeenCalledWith(200);
+    expect(mockRes.json).toHaveBeenCalledWith({
+      status: "Ok",
       message: "Data berhasil diupdate",
     });
   });
 
-  test("should retun res 401 status fail", async () => {
-    const req = {
+  test("should return status 401 and an error message when invalid ID is provided", async () => {
+    const mockInvalidId = "invalidId";
+
+    jest.spyOn(wahanaService, "findByPk").mockResolvedValue(null);
+
+    const mockReq = {
       params: {
-        id: 1,
+        id: mockInvalidId,
       },
-      body: {
-        // Mock the body data for the update operation
-        name: "Updated sekuter",
-        description: "Updated Description",
-        capacity: 10,
-        duration: 60,
-        // Include other relevant properties needed for the update
-      },
+      body: { name: "Updated Wahana A", description: "Updated Description A" },
     };
-    const res = {
-      status: jest.fn().mockReturnThis(),
+    const mockRes = {
+      status: jest.fn(() => mockRes),
       json: jest.fn(),
     };
 
-    wahanaService.findByPk = jest.fn().mockResolvedValue(Promise.resolve(null));
-    wahanaService.update = jest.fn();
+    await wahanaController.handleUpdateWahana(mockReq, mockRes);
 
-    await WahanaController.handleUpdateWahana(req, res);
-    expect(wahanaService.findByPk).toHaveBeenCalledWith(1);
+    expect(wahanaService.findByPk).toHaveBeenCalledWith(mockInvalidId);
     expect(wahanaService.update).not.toHaveBeenCalled();
-    expect(res.status).toHaveBeenCalledWith(401);
-    expect(res.json).toHaveBeenCalledWith({
-      status: "FAIL",
+    expect(mockRes.status).toHaveBeenCalledWith(401);
+    expect(mockRes.json).toHaveBeenCalledWith({
+      status: "Fail",
       message: "ID tidak ditemukan",
+    });
+  });
+
+  test("should return status 401 and an error message when update function throws an error", async () => {
+    const mockId = "validId";
+    const mockRequestBody = {
+      name: "Updated Wahana A",
+      description: "Updated Description A",
+    };
+    const errorMessage = "Some error occurred";
+
+    jest.spyOn(wahanaService, "findByPk").mockResolvedValue({
+      id: mockId,
+      name: "Wahana A",
+      description: "Description A",
+    });
+    jest
+      .spyOn(wahanaService, "update")
+      .mockRejectedValue(new Error(errorMessage));
+
+    const mockReq = {
+      params: {
+        id: mockId,
+      },
+      body: mockRequestBody,
+    };
+
+    const mockRes = {
+      status: jest.fn(() => mockRes),
+      json: jest.fn(),
+    };
+
+    await wahanaController.handleUpdateWahana(mockReq, mockRes);
+
+    expect(wahanaService.findByPk).toHaveBeenCalledWith(mockId);
+    expect(wahanaService.update).toHaveBeenCalledWith(mockId, mockRequestBody);
+    expect(mockRes.status).toHaveBeenCalledWith(401);
+    expect(mockRes.json).toHaveBeenCalledWith({
+      status: "Fail",
+      message: errorMessage,
+    });
+  });
+});
+
+describe("getByPkWahana", () => {
+  test("should return status 201 and the retrieved data when valid ID is provided", async () => {
+    const mockId = 1;
+    const mockWahana = {
+      id: mockId,
+      name: "Wahana A",
+      description: "Description A",
+    };
+
+    jest.spyOn(wahanaService, "findByPk").mockResolvedValue(mockWahana);
+
+    const mockReq = {
+      params: {
+        id: mockId,
+      },
+    };
+    const mockRes = {
+      status: jest.fn(() => mockRes),
+      json: jest.fn(),
+    };
+
+    await wahanaController.handleGetByPkWahana(mockReq, mockRes);
+
+    expect(wahanaService.findByPk).toHaveBeenCalledWith(mockId);
+    expect(mockRes.status).toHaveBeenCalledWith(201);
+    expect(mockRes.json).toHaveBeenCalledWith({
+      status: "Ok",
+      data: mockWahana,
+    });
+  });
+
+  test("should return status 401 and an error message when invalid ID is provided", async () => {
+    const mockInvalidId = "invalidId";
+    const errorMessage = "Data tidak ditemukan";
+
+    jest.spyOn(wahanaService, "findByPk").mockResolvedValue(null);
+
+    const mockReq = {
+      params: {
+        id: mockInvalidId,
+      },
+    };
+    const mockRes = {
+      status: jest.fn(() => mockRes),
+      json: jest.fn(),
+    };
+
+    await wahanaController.handleGetByPkWahana(mockReq, mockRes);
+
+    expect(wahanaService.findByPk).toHaveBeenCalledWith(mockInvalidId);
+    expect(mockRes.status).toHaveBeenCalledWith(401);
+    expect(mockRes.json).toHaveBeenCalledWith({
+      status: "Fail",
+      message: errorMessage,
+    });
+  });
+  test("should return status 401 and an error message when findByPk function throws an error", async () => {
+    const mockId = "validId";
+    const errorMessage = "Some error occurred";
+
+    jest
+      .spyOn(wahanaService, "findByPk")
+      .mockRejectedValue(new Error(errorMessage));
+
+    const mockReq = {
+      params: {
+        id: mockId,
+      },
+    };
+
+    const mockRes = {
+      status: jest.fn(() => mockRes),
+      json: jest.fn(),
+    };
+
+    await wahanaController.handleGetByPkWahana(mockReq, mockRes);
+
+    expect(wahanaService.findByPk).toHaveBeenCalledWith(mockId);
+    expect(mockRes.status).toHaveBeenCalledWith(401);
+    expect(mockRes.json).toHaveBeenCalledWith({
+      status: "Fail",
+      message: errorMessage,
     });
   });
 });

@@ -1,4 +1,5 @@
 const pemeasukanService = require("../../../service/pemeasukanService");
+const validatePemasukan = require("./helpers/validatePemasukan");
 
 module.exports = {
   async handlerGetAllPemasukan(req, res) {
@@ -44,7 +45,16 @@ module.exports = {
 
   async handlerCreatePemasukan(req, res) {
     try {
-      const body = req.body;
+      let body = req.body;
+      validatePemasukan.validatePemasukanCreate(body);
+      body = {
+        ...body,
+        idUser: req.user.id,
+        from: new Date(body.from),
+        to: new Date(`${body.to}T23:59:59`),
+        // idUser: req.user.id,
+      };
+      console.log(body);
 
       const data = await pemeasukanService.create(body);
 
@@ -60,51 +70,51 @@ module.exports = {
     }
   },
 
-  async handlerUpdatePemasukan(req, res) {
-    try {
-      const id = req.params.id;
-      const body = req.body;
+  // async handlerUpdatePemasukan(req, res) {
+  //   try {
+  //     const id = req.params.id;
+  //     const body = req.body;
 
-      if (!id) {
-        return res.status(404).json({
-          status: "FAIL",
-          message: "Data tidak ditemukan",
-        });
-      }
-      await pemeasukanService.update(id, body);
-      return res.status(200).json({
-        status: "OK",
-        message: "Data berhasil diupdate",
-      });
-    } catch (err) {
-      res.status(400).json({
-        status: "FAIL",
-        message: err.message,
-      });
-    }
-  },
+  //     if (!id) {
+  //       return res.status(404).json({
+  //         status: "FAIL",
+  //         message: "Data tidak ditemukan",
+  //       });
+  //     }
+  //     await pemeasukanService.update(id, body);
+  //     return res.status(200).json({
+  //       status: "OK",
+  //       message: "Data berhasil diupdate",
+  //     });
+  //   } catch (err) {
+  //     res.status(400).json({
+  //       status: "FAIL",
+  //       message: err.message,
+  //     });
+  //   }
+  // },
 
-  async handlerDeletePemasukan(req, res) {
-    try {
-      const id = req.params.id;
-      const isTersedia = await pemeasukanService.getByPk(id);
+  // async handlerDeletePemasukan(req, res) {
+  //   try {
+  //     const id = req.params.id;
+  //     const isTersedia = await pemeasukanService.getByPk(id);
 
-      if (!isTersedia) {
-        return res.status(404).json({
-          status: "FAIL",
-          message: "Id tidak ditemukan",
-        });
-      }
+  //     if (!isTersedia) {
+  //       return res.status(404).json({
+  //         status: "FAIL",
+  //         message: "Id tidak ditemukan",
+  //       });
+  //     }
 
-      return res.status(200).json({
-        status: "OK",
-        message: "Data berhasil dihapus",
-      });
-    } catch (err) {
-      res.status(400).json({
-        status: "FAIL",
-        message: err.message,
-      });
-    }
-  },
+  //     return res.status(200).json({
+  //       status: "OK",
+  //       message: "Data berhasil dihapus",
+  //     });
+  //   } catch (err) {
+  //     res.status(400).json({
+  //       status: "FAIL",
+  //       message: err.message,
+  //     });
+  //   }
+  // },
 };

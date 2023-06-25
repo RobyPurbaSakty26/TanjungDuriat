@@ -8,7 +8,7 @@ module.exports = {
       const { Count } = body;
 
       // validate conditon
-      if (mutasi.dataValues.Saldo <= Count) {
+      if (mutasi.dataValues.Saldo < Count) {
         const err = new Error("Saldo anda tidak mencukupi");
         throw err;
       }
@@ -17,7 +17,7 @@ module.exports = {
       const pengeluaran = await pengeluaranRepository.create(body);
       // udapte mutasi
       const dataMutasi = {
-        idIncome: pengeluaran.dataValues.id,
+        idExpenditure: pengeluaran.dataValues.id,
         Saldo: mutasi.dataValues.Saldo - Count,
         Date: new Date(),
       };

@@ -169,7 +169,6 @@ describe("handllerGetAllPaket", () => {
       count: mockCount,
     });
 
-    // Call the handler function
     await paketController.handlerGetAllPaket(mockRequest, mockResponse);
     expect(paketService.getAll).toHaveBeenCalled();
     expect(mockResponse.status).toHaveBeenCalledWith(200);
@@ -187,11 +186,9 @@ describe("handllerGetAllPaket", () => {
       json: jest.fn(),
     };
 
-    // Mock the dependencies
     const errorMessage = "Error retrieving paket data";
     paketService.getAll.mockRejectedValue(new Error(errorMessage));
 
-    // Call the handler function
     await paketController.handlerGetAllPaket(mockRequest, mockResponse);
 
     expect(paketService.getAll).toHaveBeenCalled();
@@ -227,7 +224,6 @@ describe("handllerUpdatePaket", () => {
     paketService.getByPk.mockResolvedValueOnce(mockPaketData);
     paketService.update.mockResolvedValueOnce();
 
-    // Call the handler function
     await paketController.handlerUpdatePaket(mockRequest, mockResponse);
 
     // Verify the response
@@ -284,7 +280,6 @@ describe("handllerUpdatePaket", () => {
 
     paketService.getByPk.mockResolvedValueOnce(null);
 
-    // Call the handler function
     await paketController.handlerUpdatePaket(mockRequest, mockResponse);
 
     // Verify the response
@@ -322,7 +317,6 @@ describe("handllerUpdatePaket", () => {
       new Error("Error updating paket data")
     );
 
-    // Call the handler function
     await paketController.handlerUpdatePaket(mockRequest, mockResponse);
 
     // Verify the response
@@ -352,17 +346,39 @@ describe("handllerDeletePaket", () => {
       json: jest.fn(),
     };
 
-    // Mock the dependencies
     paketService.delete.mockResolvedValueOnce();
-    // Call the handler function
+
     await paketController.handlerDeletePaket(mockRequest, mockResponse);
 
-    // Verify the response
     expect(paketService.delete).toHaveBeenCalledWith(mockPaketId);
     expect(mockResponse.status).toHaveBeenCalledWith(200);
     expect(mockResponse.json).toHaveBeenCalledWith({
       status: "Ok",
       message: "Paket berhasil dihapus",
+    });
+  });
+
+  it("should return error message on failure", async () => {
+    const mockPaketId = 1;
+    const mockRequest = {
+      params: {
+        id: mockPaketId,
+      },
+    };
+    const mockResponse = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+    const errorMessage = "Error deleting paket data";
+    paketService.delete.mockRejectedValueOnce(new Error(errorMessage));
+
+    await paketController.handlerDeletePaket(mockRequest, mockResponse);
+
+    expect(paketService.delete).toHaveBeenCalledWith(mockPaketId);
+    expect(mockResponse.status).toHaveBeenCalledWith(400);
+    expect(mockResponse.json).toHaveBeenCalledWith({
+      status: "Fail",
+      message: errorMessage,
     });
   });
 });

@@ -12,6 +12,10 @@ module.exports = {
       },
       idWahana: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "Wahanas",
+          key: "id",
+        },
       },
       NamePackage: {
         type: Sequelize.STRING,

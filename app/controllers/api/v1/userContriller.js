@@ -10,18 +10,18 @@ module.exports = {
         Password,
       };
 
-      if (Email) userService.verifyEmail(Email);
+      userService.verifyEmail(Email);
 
       const id = req.params.id;
       await userService.update(body, id);
 
       res.status(201).json({
-        status: "OK",
-        message: "UPDATE DATA BERHASIL",
+        status: "Ok",
+        message: "Update data berhasil",
       });
     } catch (err) {
       res.status(401).json({
-        status: "FAIL",
+        status: "Fail",
         message: err.message,
       });
     }
@@ -50,12 +50,12 @@ module.exports = {
       const user = await userService.getByPk(id);
 
       res.status(201).json({
-        status: "OK",
+        status: "Ok",
         data: user,
       });
     } catch (err) {
       res.status(401).json({
-        status: "OK",
+        status: "Fail",
         message: err.message,
       });
     }

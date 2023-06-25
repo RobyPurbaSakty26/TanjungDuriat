@@ -23,14 +23,10 @@ describe("handleCreateUserAdminWahana", () => {
     };
   });
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
   it("should create a user with role Admin Wahana and return their data with a 201 status code", async () => {
     userService.verifyEmail.mockReturnValue();
     userService.create.mockResolvedValue({
-      _id: "1234567890",
+      _id: "1",
       Name: "John Doe",
       Email: "johndoe@example.com",
       Role: "Admin Wahana",
@@ -49,7 +45,7 @@ describe("handleCreateUserAdminWahana", () => {
     expect(res.json).toHaveBeenCalledWith({
       status: "OK",
       data: {
-        _id: "1234567890",
+        _id: "1",
         Name: "John Doe",
         Email: "johndoe@example.com",
         Role: "Admin Wahana",
@@ -87,6 +83,174 @@ describe("handleCreateUserAdminWahana", () => {
     });
 
     await UserControllers.hadnleCreateUserAdminWahana(req, res);
+
+    expect(userService.verifyEmail).toHaveBeenCalledWith("johndoe@example.com");
+    expect(userService.create).not.toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(401);
+    expect(res.json).toHaveBeenCalledWith({
+      status: "FAIL",
+      message: errorMessage,
+    });
+  });
+});
+
+describe("handleCreateUserAdminKeuangan", () => {
+  let req;
+  let res;
+
+  beforeEach(() => {
+    req = {
+      body: {
+        Name: "John Doe",
+        Email: "johndoe@example.com",
+        Password: "password",
+      },
+    };
+    res = {
+      status: jest.fn(() => res),
+      json: jest.fn(() => res),
+    };
+  });
+
+  test("should create a user with role Admin Wahana and return their data with a 201 status code", async () => {
+    userService.verifyEmail.mockReturnValue();
+    userService.create.mockResolvedValue({
+      _id: "1",
+      Name: "John Doe",
+      Email: "johndoe@example.com",
+      Role: "Admin Keuangan",
+    });
+
+    await UserControllers.hadnleCreateUserAdminKeuangan(req, res);
+
+    expect(userService.verifyEmail).toHaveBeenCalledWith("johndoe@example.com");
+    expect(userService.create).toHaveBeenCalledWith(
+      "John Doe",
+      "johndoe@example.com",
+      "password",
+      "Admin Keuangan"
+    );
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith({
+      status: "OK",
+      data: {
+        _id: "1",
+        Name: "John Doe",
+        Email: "johndoe@example.com",
+        Role: "Admin Keuangan",
+      },
+    });
+  });
+
+  test("should return a 401 status code with an error message if an error occurs during the user creation process", async () => {
+    const errorMessage = "Error creating user";
+
+    userService.verifyEmail.mockReturnValue();
+    userService.create.mockRejectedValue(new Error(errorMessage));
+
+    await UserControllers.hadnleCreateUserAdminKeuangan(req, res);
+
+    expect(userService.verifyEmail).toHaveBeenCalledWith("johndoe@example.com");
+    expect(userService.create).toHaveBeenCalledWith(
+      "John Doe",
+      "johndoe@example.com",
+      "password",
+      "Admin Keuangan"
+    );
+    expect(res.status).toHaveBeenCalledWith(401);
+    expect(res.json).toHaveBeenCalledWith({
+      status: "FAIL",
+      message: errorMessage,
+    });
+  });
+
+  test("should return a 401 status code with an error message if the email is invalid", async () => {
+    const errorMessage = "Invalid email address";
+
+    userService.verifyEmail.mockImplementation(() => {
+      throw new Error(errorMessage);
+    });
+
+    await UserControllers.hadnleCreateUserAdminKeuangan(req, res);
+
+    expect(userService.verifyEmail).toHaveBeenCalledWith("johndoe@example.com");
+    expect(userService.create).not.toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(401);
+    expect(res.json).toHaveBeenCalledWith({
+      status: "FAIL",
+      message: errorMessage,
+    });
+  });
+});
+
+// ceteate manager
+describe("handleCreateUserManager", () => {
+  let req;
+  let res;
+
+  beforeEach(() => {
+    req = {
+      body: {
+        Name: "John Doe",
+        Email: "johndoe@example.com",
+        Password: "password",
+      },
+    };
+    res = {
+      status: jest.fn(() => res),
+      json: jest.fn(() => res),
+    };
+  });
+
+  test("should create a user with role Manager and return their data with a 201 status code", async () => {
+    userService.verifyEmail.mockReturnValue();
+    userService.create.mockResolvedValue({
+      _id: "1",
+      Name: "John Doe",
+      Email: "johndoe@example.com",
+      Role: "Manager",
+    });
+
+    await UserControllers.hadnleCreateUserAdminManager(req, res);
+
+    expect(userService.verifyEmail).toHaveBeenCalledWith("johndoe@example.com");
+
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith({
+      status: "OK",
+      data: {
+        _id: "1",
+        Name: "John Doe",
+        Email: "johndoe@example.com",
+        Role: "Manager",
+      },
+    });
+  });
+
+  test("should return a 401 status code with an error message if an error occurs during the user creation process", async () => {
+    const errorMessage = "Error creating user";
+
+    userService.verifyEmail.mockReturnValue();
+    userService.create.mockRejectedValue(new Error(errorMessage));
+
+    await UserControllers.hadnleCreateUserAdminManager(req, res);
+
+    expect(userService.verifyEmail).toHaveBeenCalledWith("johndoe@example.com");
+    expect(res.status).toHaveBeenCalledWith(401);
+    expect(res.json).toHaveBeenCalledWith({
+      status: "FAIL",
+      message: errorMessage,
+    });
+  });
+
+  test("should return a 401 status code with an error message if the email is invalid", async () => {
+    const errorMessage = "Invalid email address";
+
+    userService.verifyEmail.mockImplementation(() => {
+      throw new Error(errorMessage);
+    });
+
+    await UserControllers.hadnleCreateUserAdminManager(req, res);
 
     expect(userService.verifyEmail).toHaveBeenCalledWith("johndoe@example.com");
     expect(userService.create).not.toHaveBeenCalled();

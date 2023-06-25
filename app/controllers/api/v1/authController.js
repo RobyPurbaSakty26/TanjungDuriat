@@ -25,6 +25,52 @@ module.exports = {
     }
   },
 
+  async hadnleCreateUserAdminKeuangan(req, res) {
+    try {
+      const { Name, Email, Password } = req.body;
+
+      validateAuth.valiodateCreateUser(req.body);
+
+      userService.verifyEmail(Email);
+
+      const Role = "Admin Keuangan";
+      const user = await userService.create(Name, Email, Password, Role);
+
+      res.status(201).json({
+        status: "OK",
+        data: user,
+      });
+    } catch (err) {
+      res.status(401).json({
+        status: "FAIL",
+        message: err.message,
+      });
+    }
+  },
+
+  async hadnleCreateUserAdminManager(req, res) {
+    try {
+      const { Name, Email, Password } = req.body;
+
+      validateAuth.valiodateCreateUser(req.body);
+
+      userService.verifyEmail(Email);
+
+      const Role = "Admin Manager";
+      const user = await userService.create(Name, Email, Password, Role);
+
+      res.status(201).json({
+        status: "OK",
+        data: user,
+      });
+    } catch (err) {
+      res.status(401).json({
+        status: "FAIL",
+        message: err.message,
+      });
+    }
+  },
+
   async handleGetAllUsers(req, res) {
     try {
       const { data, count } = await userService.getAll();
@@ -97,6 +143,62 @@ module.exports = {
     } catch (err) {
       res.status(401).json({
         status: "FAIL",
+        message: err.message,
+      });
+    }
+  },
+
+  async middlewareIsAdminWahana(req, res, next) {
+    try {
+      const role = req.user.Role;
+      if (role != "Admin Wahana") {
+        res.status(203).json({
+          status: "Fail",
+          message: "Kamu bukan Admin Wahana",
+        });
+        return;
+      }
+      next();
+    } catch (err) {
+      res.status(401).json({
+        status: "Fail",
+        message: err.message,
+      });
+    }
+  },
+
+  async middlewareIsAdminKeuangan(req, res, next) {
+    try {
+      const role = req.user.Role;
+      if (role != "Admin Keuangan") {
+        res.status(203).json({
+          status: "Fail",
+          message: "Kamu bukan Admin Keuangan",
+        });
+        return;
+      }
+      next();
+    } catch (err) {
+      res.status(401).json({
+        status: "Fail",
+        message: err.message,
+      });
+    }
+  },
+  async middlewareIsManagerOrAminKeuangan(req, res, next) {
+    try {
+      const role = req.user.Role;
+      if (role != "Admin Keuangan" || role != "Manager") {
+        res.status(203).json({
+          status: "Fail",
+          message: "Kamu bukan manager",
+        });
+        return;
+      }
+      next();
+    } catch (err) {
+      res.status(401).json({
+        status: "Fail",
         message: err.message,
       });
     }

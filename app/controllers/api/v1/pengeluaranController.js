@@ -59,53 +59,53 @@ module.exports = {
     }
   },
 
-  async handlerUpdatePengeluaran(req, res) {
-    try {
-      const id = req.params.id;
-      const body = req.body;
-      const data = await pengeluaranService.getByPk(id);
-      if (!data) {
-        return res.status(404).json({
-          status: "FAIL",
-          message: "Data tidak ditemukan",
-        });
-      }
+  //   async handlerUpdatePengeluaran(req, res) {
+  //     try {
+  //       const id = req.params.id;
+  //       const body = req.body;
+  //       const data = await pengeluaranService.getByPk(id);
+  //       if (!data) {
+  //         return res.status(404).json({
+  //           status: "FAIL",
+  //           message: "Data tidak ditemukan",
+  //         });
+  //       }
 
-      await pengeluaranService.update(id, body);
-      res.status(200).json({
-        status: "OK",
-        message: "Data berhasil di update",
-      });
-    } catch (err) {
-      res.status(400).json({
-        status: "FAIL",
-        message: err.message,
-      });
-    }
-  },
+  //       await pengeluaranService.update(id, body);
+  //       res.status(200).json({
+  //         status: "OK",
+  //         message: "Data berhasil di update",
+  //       });
+  //     } catch (err) {
+  //       res.status(400).json({
+  //         status: "FAIL",
+  //         message: err.message,
+  //       });
+  //     }
+  //   },
 
-  async handlerDeletePengeluaran(req, res) {
-    try {
-      const id = req.params.id;
-      const data = await pengeluaranService.getByPk(id);
+  //   async handlerDeletePengeluaran(req, res) {
+  //     try {
+  //       const id = req.params.id;
+  //       const data = await pengeluaranService.getByPk(id);
 
-      if (!data) {
-        return res.status(404).json({
-          status: "FAIL",
-          message: "Data Pengeluaran tidak ditemukan",
-        });
-      }
+  //       if (!data) {
+  //         return res.status(404).json({
+  //           status: "FAIL",
+  //           message: "Data Pengeluaran tidak ditemukan",
+  //         });
+  //       }
 
-      await pengeluaranService.delete(id);
-      res.status(200).json({
-        status: "OK",
-        message: "Data berhasil dihapus",
-      });
-    } catch (err) {
-      res.status(400).json({
-        status: "FAIL",
-        message: err.message,
-      });
-    }
-  },
+  //       await pengeluaranService.delete(id);
+  //       res.status(200).json({
+  //         status: "OK",
+  //         message: "Data berhasil dihapus",
+  //       });
+  //     } catch (err) {
+  //       res.status(400).json({
+  //         status: "FAIL",
+  //         message: err.message,
+  //       });
+  //     }
+  //   },
 };
