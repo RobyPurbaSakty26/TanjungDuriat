@@ -1,8 +1,34 @@
 const pengeluaranRepository = require("../repository/pengeluaranRepository");
+const mutasiService = require("./mutasiService");
 
 module.exports = {
-  create(body) {
-    return pengeluaranRepository.create(body);
+  async create(body) {
+    try {
+      let mutasi = await mutasiService.lastRecord();
+      const { Count } = body;
+
+      // validate conditon
+      if (mutasi.dataValues.Saldo <= Count) {
+        const err = new Error("Saldo anda tidak mencukupi");
+        throw err;
+      }
+
+      // create pengeluaran
+      const pengeluaran = await pengeluaranRepository.create(body);
+      // udapte mutasi
+      const dataMutasi = {
+        idIncome: pengeluaran.dataValues.id,
+        Saldo: mutasi.dataValues.Saldo - Count,
+        Date: new Date(),
+      };
+
+      // create data mutasi
+      const newMutasi = await mutasiService.create(dataMutasi);
+
+      return pengeluaran, newMutasi;
+    } catch (err) {
+      throw new Error(err);
+    }
   },
 
   async getAll() {

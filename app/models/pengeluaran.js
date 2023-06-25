@@ -15,13 +15,13 @@ module.exports = (sequelize, DataTypes) => {
   Pengeluaran.init(
     {
       idUser: DataTypes.INTEGER,
-      Waktu: DataTypes.DATE,
-      Jumlah: DataTypes.INTEGER,
-      Keterangan: DataTypes.STRING,
+      Date: DataTypes.DATE,
+      Count: DataTypes.INTEGER,
+      Description: DataTypes.STRING,
     },
     {
       sequelize,
-      modelName: "Pengeluaran",
+      modelName: "Expenditure",
     }
   );
   return Pengeluaran;

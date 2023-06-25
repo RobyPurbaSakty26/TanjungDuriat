@@ -148,6 +148,10 @@ apiRouter.get(
   "/api/v1/mutasi",
   controllers.api.v1.mutasiContoller.handlerGettAllMutasi
 );
+apiRouter.get(
+  "/api/v1/mutasi/get-by-date",
+  controllers.api.v1.mutasiContoller.handllerGetByDateMutasi
+);
 
 apiRouter.use(controllers.api.main.onLost);
 apiRouter.use(controllers.api.main.onError);

@@ -1,9 +1,12 @@
 const userService = require("../../../service/userService");
+const validateAuth = require("./helpers/validateAuth");
 
 module.exports = {
   async hadnleCreateUserAdminWahana(req, res) {
     try {
       const { Name, Email, Password } = req.body;
+
+      validateAuth.valiodateCreateUser(req.body);
 
       userService.verifyEmail(Email);
 
@@ -42,6 +45,7 @@ module.exports = {
   async handleLogin(req, res) {
     try {
       const { Email, Password } = req.body;
+      validateAuth.validatLogin(req.body);
       const user = await userService.login(Email, Password);
 
       res.status(201).json({

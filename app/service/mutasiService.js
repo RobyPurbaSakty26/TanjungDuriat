@@ -29,4 +29,8 @@ module.exports = {
   lastRecord() {
     return mutasiRepository.lastRecord();
   },
+
+  getByDate(from, to) {
+    return mutasiRepository.getByDate(from, to);
+  },
 };
