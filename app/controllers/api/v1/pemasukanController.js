@@ -7,13 +7,13 @@ module.exports = {
       const { data, count } = await pemeasukanService.getAll();
 
       res.status(200).json({
-        status: "OK",
+        status: "Ok",
         data,
         count,
       });
     } catch (err) {
       res.status(400).json({
-        status: "FAIL",
+        status: "Fail",
         message: err.message,
       });
     }
@@ -25,19 +25,19 @@ module.exports = {
 
       if (!id) {
         return res.status(404).json({
-          status: "FAIL",
+          status: "Fail",
           message: "Data tidak ditemukan",
         });
       }
       const data = await pemeasukanService.getByPk(id);
 
       return res.status(200).json({
-        status: "OK",
+        status: "Ok",
         data: data,
       });
     } catch (err) {
       res.status(400).json({
-        status: "FAIL",
+        status: "Fail",
         message: err.message,
       });
     }
@@ -54,17 +54,16 @@ module.exports = {
         to: new Date(`${body.to}T23:59:59`),
         // idUser: req.user.id,
       };
-      console.log(body);
 
       const data = await pemeasukanService.create(body);
 
       res.status(200).json({
-        status: "OK",
+        status: "Ok",
         data: data,
       });
     } catch (err) {
       res.status(400).json({
-        status: "FAIL",
+        status: "Fail",
         message: err.message,
       });
     }

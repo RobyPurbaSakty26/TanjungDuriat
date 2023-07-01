@@ -1,6 +1,16 @@
 /* eslint-disable no-unused-vars */
 "use strict";
 
+const { encryptPassword } = require("../../app/service/userService");
+// let pass = "123";
+// async function encript(str) {
+//   try {
+//     pass = await encryptPassword("123");
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -13,12 +23,16 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
+
+    const pass = await encryptPassword("123");
     await queryInterface.bulkInsert(
-      "Wahanas",
+      "Users",
       [
         {
-          NamaWahana: "Balon",
-          Status: true,
+          Name: "Admin Wahana",
+          Email: "AdminKeuangan@mail.com",
+          Role: "Admin Keuangan",
+          Password: pass,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

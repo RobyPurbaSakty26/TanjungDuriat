@@ -191,6 +191,25 @@ module.exports = {
       if (role != "Admin Keuangan" || role != "Manager") {
         res.status(203).json({
           status: "Fail",
+          message: "Kamu bukan manager  atau admin keuangan",
+        });
+        return;
+      }
+      next();
+    } catch (err) {
+      res.status(401).json({
+        status: "Fail",
+        message: err.message,
+      });
+    }
+  },
+
+  async middlewareIsManager(req, res, next) {
+    try {
+      const role = req.user.Role;
+      if (role != "Manager") {
+        res.status(203).json({
+          status: "Fail",
           message: "Kamu bukan manager",
         });
         return;

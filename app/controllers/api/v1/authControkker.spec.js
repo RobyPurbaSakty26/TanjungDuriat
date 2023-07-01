@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 
 const userService = require("../../../service/userService");
+
 const UserControllers = require("./authController");
 
 jest.mock("../../../service/userService");
@@ -411,7 +412,7 @@ describe("handller authorizde", () => {
     expect(next).toHaveBeenCalled();
   });
 
-  test("handllerAuthorization res 402 with", async () => {
+  test("handllerAuthorization res 203 with", async () => {
     // mock
 
     userService.authorize = jest.fn().mockRejectedValue();
@@ -505,5 +506,128 @@ describe("WhoIm", () => {
       status: "FAIL",
       message: err.message,
     });
+  });
+});
+
+describe("middlewareAminKeangan", () => {
+  test("should call next() when the user is an Admin Keuangan", () => {
+    const req = {
+      user: {
+        Role: "Admin Keuangan",
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+    const next = jest.fn();
+    UserControllers.middlewareIsAdminKeuangan(req, res, next);
+
+    expect(res.status).not.toHaveBeenCalled();
+    expect(res.json).not.toHaveBeenCalled();
+    expect(next).toHaveBeenCalled();
+  });
+
+  test("should return a 203 status code with an error message when the user is not an Admin Keuangan", () => {
+    const req = {
+      user: {
+        Role: "Some Other Role",
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+    const next = jest.fn();
+    UserControllers.middlewareIsAdminKeuangan(req, res, next);
+
+    expect(res.status).toHaveBeenCalledWith(203);
+    expect(res.json).toHaveBeenCalledWith({
+      status: "Fail",
+      message: "Kamu bukan Admin Keuangan",
+    });
+    expect(next).not.toHaveBeenCalled();
+  });
+});
+
+describe("middlewareAminWahana", () => {
+  test("should call next() when the user is an Admin Wahana", () => {
+    const req = {
+      user: {
+        Role: "Admin Wahana",
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+    const next = jest.fn();
+    UserControllers.middlewareIsAdminWahana(req, res, next);
+
+    expect(res.status).not.toHaveBeenCalled();
+    expect(res.json).not.toHaveBeenCalled();
+    expect(next).toHaveBeenCalled();
+  });
+
+  test("should return a 203 status code with an error message when the user is not an Admin Wahana", () => {
+    const req = {
+      user: {
+        Role: "Bukan admin wahana",
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+    const next = jest.fn();
+    UserControllers.middlewareIsAdminWahana(req, res, next);
+
+    expect(res.status).toHaveBeenCalledWith(203);
+    expect(res.json).toHaveBeenCalledWith({
+      status: "Fail",
+      message: "Kamu bukan Admin Wahana",
+    });
+    expect(next).not.toHaveBeenCalled();
+  });
+});
+
+describe("middlewareIsManager", () => {
+  test("should call next() when the user is an Admin Manager", () => {
+    const req = {
+      user: {
+        Role: "Manager",
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+    const next = jest.fn();
+    UserControllers.middlewareIsManager(req, res, next);
+
+    expect(res.status).not.toHaveBeenCalled();
+    expect(res.json).not.toHaveBeenCalled();
+    expect(next).toHaveBeenCalled();
+  });
+
+  test("should return a 203 status code with an error message when the user is not an Admin Wahana", () => {
+    const req = {
+      user: {
+        Role: "Bukan admin wahana",
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+    const next = jest.fn();
+    UserControllers.middlewareIsManager(req, res, next);
+
+    expect(res.status).toHaveBeenCalledWith(203);
+    expect(res.json).toHaveBeenCalledWith({
+      status: "Fail",
+      message: "Kamu bukan manager",
+    });
+    expect(next).not.toHaveBeenCalled();
   });
 });

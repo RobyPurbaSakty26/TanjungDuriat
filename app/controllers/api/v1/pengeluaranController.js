@@ -1,18 +1,20 @@
 const pengeluaranService = require("../../../service/pengeluaranService");
+const validatePengeluaran = require("./helpers/validatePengeluaran");
 
 module.exports = {
   async handlerCreatePengeluaran(req, res) {
     try {
       const body = req.body;
+      validatePengeluaran.validateCreatePengeluaran(body);
       const Pengeluaran = await pengeluaranService.create(body);
 
       res.status(201).json({
-        status: "OK",
+        status: "Ok",
         data: Pengeluaran,
       });
     } catch (err) {
       res.status(400).json({
-        status: "FAIL",
+        status: "Fail",
         message: err.message,
       });
     }
@@ -23,13 +25,13 @@ module.exports = {
       const { data, count } = await pengeluaranService.getAll();
 
       res.status(200).json({
-        status: "OK",
+        status: "Ok",
         data,
         count,
       });
     } catch (err) {
       res.status(400).json({
-        status: "FAIL",
+        status: "Fail",
         message: err.message,
       });
     }
@@ -42,18 +44,18 @@ module.exports = {
 
       if (!data) {
         return res.status(404).json({
-          status: "FAIL",
+          status: "Fail",
           message: "Data tidak ditemukan",
         });
       }
 
       res.status(200).json({
-        status: "OK",
+        status: "Ok",
         data: data,
       });
     } catch (err) {
       res.status(400).json({
-        status: "FAIL",
+        status: "Fail",
         message: err.message,
       });
     }
