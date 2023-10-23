@@ -18,7 +18,11 @@ if (config.use_env_variable) {
     config.password,
     config,
     {
-      dialectModule: require('pg')
+      dialectModule: require('pg'),
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+    }
     },
   );
 }
