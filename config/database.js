@@ -7,10 +7,10 @@
 // POSTGRES_PASSWORD="9ycmYw1lLHeM"
 // POSTGRES_DATABASE="verceldb"
 const {
-  DB_USER = "default",
-  DB_PASSWORD = "a7EUNrlf6JkP",
-  DB_HOST = "ep-flat-credit-24119731-pooler.ap-southeast-1.postgres.vercel-storage.com",
-  DB_NAME = "verceldb",
+  DB_USER = "a2.1900158",
+  DB_PASSWORD = "iXtO0o2ubVIJ",
+  DB_HOST = "ep-frosty-smoke-76623216.us-east-2.aws.neon.tech",
+  DB_NAME = "neondb",
   DB_PORT = "5432",
 } = process.env;
 
